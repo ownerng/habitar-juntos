@@ -74,6 +74,7 @@ function CameraRig() {
   const goal = useRef({ pos: new THREE.Vector3(), target: new THREE.Vector3(), active: true })
   const typology = useApp((s) => s.typology)
   const step = useApp((s) => s.step)
+  const inside = useApp((s) => s.inside)
 
   useEffect(() => {
     const t = typologies[typology]
@@ -84,15 +85,18 @@ function CameraRig() {
       const [tx, ty, tz] = t.overview.target
       const [px, py, pz] = t.overview.pos
       g.target.set(tx, ty, tz)
-      g.pos.set(tx + (px - tx) * m, ty + (py - ty) * m, tz + (pz - tz) * m)
+      // con el corte interior la cámara sube y se acerca para ver dentro de las habitaciones
+      const h = inside ? 1.25 : 1
+      const c = inside ? 0.78 : 1
+      g.pos.set(tx + (px - tx) * m * c, ty + (py - ty) * m * h, tz + (pz - tz) * m * c)
     } else {
       const s = t.steps[step]
       g.target.set(...s.anchor)
-      const k = 1.6 * m // distancia de cámara: el ancla debe quedar rodeada de contexto
-      g.pos.set(s.anchor[0] + s.view[0] * k, s.anchor[1] + s.view[1] * k + 1.6, s.anchor[2] + s.view[2] * k)
+      const k = (s.inside ? 2.6 : 1.6) * m // distancia de cámara: el ancla debe quedar rodeada de contexto
+      g.pos.set(s.anchor[0] + s.view[0] * k, s.anchor[1] + s.view[1] * k + (s.inside ? 0.3 : 1.6), s.anchor[2] + s.view[2] * k)
     }
     g.active = true
-  }, [typology, step])
+  }, [typology, step, inside])
 
   useFrame(({ camera }, dt) => {
     const c = controls.current

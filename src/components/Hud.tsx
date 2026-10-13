@@ -162,8 +162,19 @@ function Tools() {
   const focus = useApp((s) => s.focus)
   const setFocus = useApp((s) => s.setFocus)
   const step = useApp((s) => s.step)
+  const inside = useApp((s) => s.inside)
+  const setInside = useApp((s) => s.setInside)
   return (
     <div className={`pointer-events-auto absolute inset-x-5 bottom-24 ${step >= 0 ? 'max-sm:hidden' : ''} flex items-center gap-4 sm:inset-x-auto sm:bottom-auto sm:right-8 sm:top-1/3 sm:w-48 sm:flex-col sm:items-stretch sm:gap-5`}>
+      <button
+        onClick={() => setInside(!inside)}
+        aria-pressed={inside}
+        className={`mono shrink-0 border px-3 py-2 text-[11px] uppercase tracking-[0.16em] transition ${
+          inside ? 'border-white bg-white text-slate-900' : 'border-white/50 text-white hover:border-white'
+        }`}
+      >
+        {inside ? 'Cerrar muros' : 'Ver interior'}
+      </button>
       <label className="block flex-1 sm:flex-none">
         <span className="mono text-[10px] uppercase tracking-[0.2em] text-white/60">Despiece</span>
         <input

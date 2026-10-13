@@ -14,6 +14,8 @@ export interface Step {
   concept: string
   detail: string
   keyFact: string
+  /** abre el corte interior (paredes y techos en transparencia) */
+  inside?: boolean
 }
 
 export interface Typology {
@@ -113,6 +115,32 @@ export const typologies: Record<TypologyId, Typology> = {
           'Las casas miran al patio central: el recorrido diario pasa por lo común antes de llegar a lo privado (calle → patio → umbral → casa).',
         keyFact: 'Privado → umbral → común.',
       },
+      {
+        id: 'co-interior',
+        label: 'Dentro de una casa',
+        zone: 'privado',
+        floor: 0,
+        anchor: [-3.3, 0.5, -0.4],
+        view: [1.1, 0.9, 0.5],
+        inside: true,
+        concept: 'Una vivienda completa, en pequeño',
+        detail:
+          'Estar con sofá y TV, cocina-comedor, dormitorio y baño propios. Nada se comparte por obligación: lo común es una elección, no una carencia del hogar.',
+        keyFact: 'Cada casa es autosuficiente: 40–90 m² con todos los servicios.',
+      },
+      {
+        id: 'co-comedor',
+        label: 'Interior de la casa común',
+        zone: 'comun',
+        floor: 0,
+        anchor: [0, 0.5, -2.6],
+        view: [0.3, 1.0, 2.0],
+        inside: true,
+        concept: 'Comer juntos varias veces a la semana',
+        detail:
+          'Un comedor para toda la comunidad, cocina colectiva con isla, rincón de estar y biblioteca. Cocinar por turnos libera tiempo y fortalece los lazos.',
+        keyFact: 'La cena comunitaria es el ritual que sostiene al grupo.',
+      },
     ],
     compare: {
       diseno: 'Participativo por los usuarios',
@@ -183,6 +211,32 @@ export const typologies: Record<TypologyId, Typology> = {
           'Terraza, huerto urbano y cine al aire libre compensan la compacidad de las habitaciones con espacio de ocio y vistas.',
         keyFact: 'Delega la administración a una empresa operadora a cambio de un alquiler mensual.',
       },
+      {
+        id: 'cl-hab',
+        label: 'Habitación compacta',
+        zone: 'privado',
+        floor: 1,
+        anchor: [-1.0, 1.5, 0.8],
+        view: [0.3, 0.9, 1.6],
+        inside: true,
+        concept: 'Cama, escritorio y baño en 15 m²',
+        detail:
+          'Cada unidad tiene cama, escritorio, armario y baño propio; las ocho dan a un pasillo central. Todo lo que no cabe en la habitación vive en la planta baja.',
+        keyFact: 'Ocho unidades por planta compartiendo un solo núcleo vertical.',
+      },
+      {
+        id: 'cl-cowork-int',
+        label: 'Cocina y coworking',
+        zone: 'comun',
+        floor: 0,
+        anchor: [-0.4, 0.4, 0],
+        view: [0.4, 1.0, 1.8],
+        inside: true,
+        concept: 'La planta baja es la sala de estar de todos',
+        detail:
+          'Cocina colectiva con isla y mesa grande, puestos de coworking con doble pantalla y un rincón de cine. Es el programa que justifica vivir en una habitación mínima.',
+        keyFact: 'Las áreas comunes pueden superar el 60 % de la superficie.',
+      },
     ],
     compare: {
       diseno: 'Diseñado por desarrolladores',
@@ -252,6 +306,19 @@ export const typologies: Record<TypologyId, Typology> = {
         detail:
           'Plantas libres con tabiquería removible permiten adaptar la vivienda al tamaño del hogar a lo largo del tiempo, sin tocar la estructura.',
         keyFact: 'Gestión por copropiedad (propiedad horizontal).',
+      },
+      {
+        id: 'vc-interior',
+        label: 'Dentro de una vivienda',
+        zone: 'privado',
+        floor: 1,
+        anchor: [-1.7, 1.6, 0],
+        view: [0.4, 1.0, 1.7],
+        inside: true,
+        concept: 'Zona de día y zona de noche',
+        detail:
+          'Estar-cocina-comedor hacia la fachada con balcón; dormitorio, estudio y baño agrupados atrás. Separar día y noche ordena la vivienda y facilita la ventilación cruzada.',
+        keyFact: 'Núcleo central con escalera y ascensor sirve a todas las plantas.',
       },
     ],
     compare: {

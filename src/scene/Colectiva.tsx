@@ -1,4 +1,5 @@
 import { RoundedBox } from '@react-three/drei'
+import { ApartmentInterior, CoreInterior, Inside } from './interior'
 import { Balcony, Bed, BikeRack, Bench, Car, Facade, Fence, Flowers, House, Lamp, Person, Pop, Road, Tree, Wind, ZMat } from './kit'
 
 const H = 1.05
@@ -23,7 +24,7 @@ function SolarRoof() {
     <group rotation={[-0.38, 0, 0]} position={[0, 0.32, 0]}>
       <mesh castShadow>
         <boxGeometry args={[SW - 0.1, 0.07, D - 0.3]} />
-        <ZMat zone="bioclimatico" color="#cfd6de" />
+        <ZMat shell zone="bioclimatico" color="#cfd6de" />
       </mesh>
       {cells}
     </group>
@@ -38,12 +39,15 @@ export function Colectiva() {
         [-1, 1].map((s) => (
           <Pop key={`${f}${s}`} position={[s * SX, f * H, 0]} floor={f} delay={0.1 + f * 0.15 + (s > 0 ? 0.05 : 0)}>
             <RoundedBox args={[SW, H, D]} radius={0.05} smoothness={3} position={[0, H / 2, 0]} castShadow receiveShadow>
-              <ZMat zone="privado" color={s < 0 ? '#f2d6b8' : '#e8c4a8'} />
+              <ZMat shell zone="privado" color={s < 0 ? '#f2d6b8' : '#e8c4a8'} />
             </RoundedBox>
             <Facade w={SW} d={D} h={H} cols={3} zone="privado" door={false} winW={0.3} winH={0.44} />
             <group position={[0, 0, D / 2]}>
               <Balcony w={SW - 0.3} />
             </group>
+            <Inside>
+              <ApartmentInterior mirror={s > 0} seed={f * 2 + (s > 0 ? 1 : 0)} />
+            </Inside>
           </Pop>
         )),
       )}
@@ -52,17 +56,20 @@ export function Colectiva() {
       {[0, 1, 2].map((f) => (
         <Pop key={f} position={[0, f * H, 0]} floor={f} delay={0.1 + f * 0.1}>
           <RoundedBox args={[CW, H, D]} radius={0.04} smoothness={3} position={[0, H / 2, 0]} castShadow receiveShadow>
-            <ZMat zone="circulacion" color="#e5e9ef" />
+            <ZMat shell zone="circulacion" color="#e5e9ef" />
           </RoundedBox>
           <mesh position={[0, H * 0.55, D / 2 + 0.01]}>
             <boxGeometry args={[0.4, 0.72, 0.03]} />
-            <ZMat zone="circulacion" color="#b8d4f0" glow />
+            <ZMat shell zone="circulacion" color="#b8d4f0" glow />
           </mesh>
+          <Inside>
+            <CoreInterior rise={H} w={CW} d={D} />
+          </Inside>
         </Pop>
       ))}
       <Pop position={[0, 3 * H, 0]} floor={3} delay={0.6}>
         <RoundedBox args={[CW, 0.55, D]} radius={0.04} smoothness={3} position={[0, 0.275, 0]} castShadow>
-          <ZMat zone="circulacion" color="#e5e9ef" />
+          <ZMat shell zone="circulacion" color="#e5e9ef" />
         </RoundedBox>
       </Pop>
 
@@ -70,7 +77,7 @@ export function Colectiva() {
       <Pop position={[-SX, 3 * H, 0]} floor={3} delay={0.7}>
         <mesh position={[0, 0.07, 0]} castShadow receiveShadow>
           <boxGeometry args={[SW, 0.14, D]} />
-          <ZMat zone="bioclimatico" color="#5fa86a" />
+          <ZMat shell zone="bioclimatico" color="#5fa86a" />
         </mesh>
       </Pop>
       <Bed position={[-SX - 0.5, 3 * H + 0.14, -0.4]} w={0.9} d={0.9} floor={3} delay={0.9} />
@@ -78,7 +85,7 @@ export function Colectiva() {
       <Pop position={[SX, 3 * H, 0]} floor={3} delay={0.8}>
         <mesh position={[0, 0.07, 0]} castShadow receiveShadow>
           <boxGeometry args={[SW, 0.14, D]} />
-          <ZMat zone="bioclimatico" color="#cfd6de" />
+          <ZMat shell zone="bioclimatico" color="#cfd6de" />
         </mesh>
         <SolarRoof />
       </Pop>

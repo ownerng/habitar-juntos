@@ -4,6 +4,7 @@ import { useMemo, useRef, type ReactNode } from 'react'
 import * as THREE from 'three'
 import { zoneColors, type V3, type Zone } from '../data/typologies'
 import { useApp } from '../store/useApp'
+import { HomeInterior, Inside } from './interior'
 
 /** distancia vertical entre plantas cuando se "despieza" la maqueta */
 export const FLOOR_GAP = 1.15
@@ -22,12 +23,15 @@ export function ZMat({
   zone,
   color,
   glow = false,
+  shell = false,
   roughness = 0.85,
   metalness = 0,
 }: {
   zone: Zone
   color: string
   glow?: boolean
+  /** envolvente (muros, techos, ventanas): se vuelve fantasma al "ver interior" */
+  shell?: boolean
   roughness?: number
   metalness?: number
 }) {
@@ -41,7 +45,8 @@ export function ZMat({
     const hit = f === zone
     const k = 1 - Math.pow(0.0005, dt)
     m.color.lerp(hit && !glow ? tint : base, k)
-    const to = f === null || hit ? 1 : 0.08
+    let to = f === null || hit ? 1 : 0.08
+    if (shell && useApp.getState().inside) to = Math.min(to, 0.07)
     m.opacity += (to - m.opacity) * k
     const tr = m.opacity < 0.995
     if (m.transparent !== tr) {
@@ -132,7 +137,7 @@ export function GableRoof({
   return (
     <group>
       <mesh geometry={gable} castShadow receiveShadow>
-        <ZMat zone={zone} color={wall} />
+        <ZMat shell zone={zone} color={wall} />
       </mesh>
       {[-1, 1].map((s) => (
         <mesh
@@ -143,12 +148,12 @@ export function GableRoof({
           receiveShadow
         >
           <boxGeometry args={[len, 0.09, d + o * 2]} />
-          <ZMat zone={zone} color={color} roughness={0.65} />
+          <ZMat shell zone={zone} color={color} roughness={0.65} />
         </mesh>
       ))}
       <mesh position={[0, h + 0.03, 0]} castShadow>
         <boxGeometry args={[0.12, 0.08, d + o * 2 + 0.02]} />
-        <ZMat zone={zone} color={color} roughness={0.65} />
+        <ZMat shell zone={zone} color={color} roughness={0.65} />
       </mesh>
     </group>
   )
@@ -186,11 +191,11 @@ export function Facade({
         <group key={`${sgn}-${i}`} position={[x, h * 0.58, z]}>
           <mesh position={[0, 0, sgn * 0.005]}>
             <boxGeometry args={[winW + 0.07, winH + 0.07, 0.03]} />
-            <ZMat zone={zone} color="#fdf6e8" />
+            <ZMat shell zone={zone} color="#fdf6e8" />
           </mesh>
           <mesh position={[0, 0, sgn * 0.025]}>
             <boxGeometry args={[winW, winH, 0.03]} />
-            <ZMat zone={zone} color={glass} glow />
+            <ZMat shell zone={zone} color={glass} glow />
           </mesh>
         </group>,
       )
@@ -200,7 +205,7 @@ export function Facade({
     items.push(
       <mesh key="door" position={[0, 0.32, d / 2 + 0.015]}>
         <boxGeometry args={[0.32, 0.64, 0.05]} />
-        <ZMat zone={zone} color="#6b4a3a" />
+        <ZMat shell zone={zone} color="#6b4a3a" />
       </mesh>,
     )
   }
@@ -250,6 +255,7 @@ export function House({
   delay = 0,
   chimney = false,
   door = true,
+  rooms,
 }: {
   position: V3
   rotY?: number
@@ -265,15 +271,21 @@ export function House({
   delay?: number
   chimney?: boolean
   door?: boolean
+  /** interior por planta; null = sin interior; por defecto, vivienda tipo */
+  rooms?: ((story: number) => ReactNode) | null
 }) {
+  const seed = Math.abs(Math.round(position[0] * 7 + position[2] * 13))
   const parts: ReactNode[] = []
   for (let s = 0; s < stories; s++) {
     parts.push(
       <Pop key={s} position={[0, s * h, 0]} floor={s} delay={delay + s * 0.15}>
         <RoundedBox args={[w, h, d]} radius={0.05} smoothness={3} position={[0, h / 2, 0]} castShadow receiveShadow>
-          <ZMat zone={zone} color={wall} />
+          <ZMat shell zone={zone} color={wall} />
         </RoundedBox>
         <Facade w={w} d={d} h={h} cols={cols} zone={zone} door={door && s === 0} />
+        {rooms !== null && (
+          <Inside>{rooms ? rooms(s) : <HomeInterior w={w} d={d} story={s} seed={seed + s} />}</Inside>
+        )}
       </Pop>,
     )
   }
@@ -355,14 +367,14 @@ export function Pergola({
         [-1, 1].map((sz) => (
           <mesh key={`${sx}${sz}`} position={[(sx * w) / 2, h / 2, (sz * d) / 2]} castShadow>
             <boxGeometry args={[0.07, h, 0.07]} />
-            <ZMat zone={zone} color="#8b6a50" />
+            <ZMat shell zone={zone} color="#8b6a50" />
           </mesh>
         )),
       )}
       {Array.from({ length: slats }).map((_, i) => (
         <mesh key={i} position={[0, h, -d / 2 + (i * d) / (slats - 1)]} castShadow>
           <boxGeometry args={[w + 0.25, 0.04, 0.08]} />
-          <ZMat zone={zone} color="#a98363" />
+          <ZMat shell zone={zone} color="#a98363" />
         </mesh>
       ))}
     </Pop>

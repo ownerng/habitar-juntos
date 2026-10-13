@@ -1,3 +1,4 @@
+import { CommonHall, Workshop } from './interior'
 import { Bed, Bench, Fence, Flowers, House, Lamp, Pergola, Person, PicnicTable, Pop, Tree, ZMat } from './kit'
 
 const homes: { pos: [number, number, number]; rot: number; wall: string; roof: string }[] = [
@@ -23,6 +24,7 @@ export function Cohousing() {
         roof="#2f7f84"
         chimney
         delay={0.1}
+        rooms={() => <CommonHall />}
       />
       <Pergola position={[0, 0, -1.2]} w={2.6} d={1.1} zone="comun" delay={0.5} />
       {/* Taller */}
@@ -38,6 +40,7 @@ export function Cohousing() {
         roof="#2f7f84"
         delay={0.45}
         door={false}
+        rooms={() => <Workshop />}
       />
 
       {/* Viviendas privadas */}
