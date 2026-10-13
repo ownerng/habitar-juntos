@@ -1,0 +1,206 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  background: #0b1118;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid rgb(255 255 255 / 0.55);
+  padding: 0.65rem 1.1rem;
+  color: white;
+  transition: all 0.2s;
+}
+.btn:hover:not(:disabled) {
+  background: white;
+  color: #0b1118;
+}
+.btn:disabled {
+  opacity: 0.3;
+}
+.btn-sm {
+  padding: 0.5rem 0.85rem;
+}
+
+/* pines 3D numerados */
+.pin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgb(11 17 24 / 0.82);
+  border: 1.5px solid var(--c);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+.pin:hover {
+  transform: scale(1.15);
+}
+.pin[data-active='true'] {
+  background: var(--c);
+  color: #0b1118;
+  transform: scale(1.2);
+}
+.pin-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid var(--c);
+  animation: ring 2.2s ease-out infinite;
+}
+@keyframes ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.pin-n {
+  position: relative;
+}
+
+/* anotación estilo plano: línea guía + ficha */
+.note {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 0;
+  height: 0;
+}
+.note-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 70px;
+  height: 1px;
+  background: var(--c);
+  transform-origin: 0 0;
+  transform: rotate(-35deg) scaleX(0);
+  animation: draw 0.45s 0.15s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes draw {
+  to {
+    transform: rotate(-35deg) scaleX(1);
+  }
+}
+.note-card {
+  position: absolute;
+  left: 52px;
+  top: -92px;
+  width: 270px;
+  padding: 14px 16px;
+  background: rgb(11 17 24 / 0.86);
+  border-left: 2px solid var(--c);
+  backdrop-filter: blur(10px);
+  color: white;
+  text-align: left;
+  opacity: 0;
+  animation: cardIn 0.5s 0.45s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.note-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.65);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.note-kicker i {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.note-body h3 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.15;
+  margin: 6px 0 6px;
+  font-weight: 500;
+}
+.note-text {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.8);
+}
+.note-fact {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(255 255 255 / 0.15);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c);
+}
+
+@media (max-width: 640px) {
+  .note-card {
+    width: 220px;
+    left: 20px;
+    top: -150px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.sheet {
+  padding: 14px 16px;
+  background: rgb(11 17 24 / 0.9);
+  border-left: 2px solid var(--c);
+  backdrop-filter: blur(10px);
+  animation: cardIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
