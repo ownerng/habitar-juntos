@@ -83,28 +83,17 @@ function Intro() {
           className="pointer-events-none absolute bottom-40 left-5 right-5 max-w-sm sm:bottom-10 sm:left-8 sm:right-auto"
         >
           <p className="mono text-[11px] uppercase tracking-[0.22em] text-white/60">{t.tagline}</p>
-          <h1 className="display mt-2 text-5xl leading-[0.95] sm:text-7xl">{t.name}</h1>
+          <h1 className="display mt-2 text-5xl leading-[0.95] sm:text-6xl">{t.name}</h1>
           <p className="mt-4 text-sm leading-relaxed text-white/80">{t.summary}</p>
-          <div className="mt-5 max-w-xs">
-            <div className="flex h-1.5 overflow-hidden rounded-full bg-white/15">
-              <motion.div
-                className="bg-[#ffb15c]"
-                initial={{ width: 0 }}
-                animate={{ width: `${t.privatePct}%` }}
-                transition={{ duration: 0.9, delay: 0.2 }}
-              />
-              <motion.div
-                className="bg-[#6ea8ff]"
-                initial={{ width: 0 }}
-                animate={{ width: `${t.commonPct}%` }}
-                transition={{ duration: 0.9, delay: 0.2 }}
-              />
-            </div>
-            <div className="mono mt-1.5 flex justify-between text-[10px] uppercase tracking-widest text-white/60">
-              <span>Privado {t.privatePct}%</span>
-              <span>Común {t.commonPct}%</span>
-            </div>
-          </div>
+          <p className="display mt-5 text-lg italic text-white/90">{t.question}</p>
+          <p className="mono mt-3 flex flex-wrap items-center gap-x-2 text-[10px] uppercase tracking-widest text-white/65">
+            {t.sequence.map((w, i) => (
+              <span key={w}>
+                {i > 0 && <span className="mr-2 text-[#ffb15c]">→</span>}
+                {w}
+              </span>
+            ))}
+          </p>
         </motion.section>
       )}
     </AnimatePresence>

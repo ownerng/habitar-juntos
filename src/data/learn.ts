@@ -7,52 +7,93 @@ export interface QuizQuestion {
 
 export const quiz: QuizQuestion[] = [
   {
-    q: '¿Qué modelo se caracteriza por ser autogestionado y diseñado con participación de los futuros residentes?',
-    options: ['Coliving', 'Cohousing', 'Vivienda colectiva tradicional'],
-    answer: 1,
-    explain:
-      'El cohousing nace del grupo: los residentes participan en el diseño y se encargan del mantenimiento.',
-  },
-  {
-    q: '¿Cuál ofrece unidades privadas más compactas y gestión por una empresa externa?',
-    options: ['Coliving', 'Cohousing', 'Ninguno'],
-    answer: 0,
-    explain:
-      'En coliving el espacio privado se reduce y los servicios los provee un operador a cambio de un alquiler.',
-  },
-  {
-    q: 'En la vivienda colectiva, ¿qué criterios actuales buscan optimizar energía y suelo?',
-    options: ['Decoración interior', 'Bioclimática, flexibilidad y servicios compartidos', 'Solo mayor altura'],
-    answer: 1,
-    explain:
-      'Las tendencias actuales integran arquitectura bioclimática y flexibilidad espacial en la vivienda colectiva.',
-  },
-  {
-    q: '¿Cómo es la estancia típica en un cohousing?',
-    options: ['Temporal y flexible', 'Permanente o de largo plazo', 'Solo por semanas'],
-    answer: 1,
-    explain: 'El derecho de uso suele ser indefinido, lo que favorece la comunidad.',
-  },
-  {
-    q: '¿Cuál es el objetivo principal del coliving en las grandes ciudades?',
+    q: 'Un conjunto tiene un patio común, pero casi nadie lo utiliza. ¿Qué podría estar pasando?',
     options: [
-      'Combatir el aislamiento con huertos comunitarios',
-      'Optimizar espacio urbano y costos con servicios incluidos',
-      'Construir viviendas unifamiliares',
+      'El patio es compartido, así que necesariamente debería funcionar bien',
+      'Puede estar mal conectado con las viviendas o no ofrecer motivos para utilizarlo',
+      'La solución siempre es construir más pisos',
     ],
     answer: 1,
     explain:
-      'Delega la administración en una empresa y concentra el programa social en áreas compartidas.',
+      'Compartir un espacio no garantiza que se utilice. Su ubicación, accesibilidad, comodidad y relación con los recorridos pueden influir en la convivencia.',
+  },
+  {
+    q: '¿Cuál es la idea principal del Conjunto Alcaraván?',
+    options: ['Fragmentación y porosidad', 'Concentración', 'Integración por sustracción'],
+    answer: 1,
+    explain: 'Alcaraván concentra las actividades y las zonas comunes en un núcleo. Su pregunta guía: ¿dónde se reúnen las personas?',
+  },
+  {
+    q: '¿Qué significa «fragmentación» en la Casa Moriyama?',
+    options: [
+      'Dividir la composición en varios volúmenes separados',
+      'Reunir todo en un único edificio compacto',
+      'Repetir la misma vivienda en altura',
+    ],
+    answer: 0,
+    explain: 'Es como partir una construcción grande en piezas más pequeñas. Entre ellas quedan vacíos que generan recorridos y visuales.',
+  },
+  {
+    q: '¿Qué es la sustracción, según el caso de Ventum?',
+    options: [
+      'Eliminar las zonas comunes del proyecto',
+      'Retirar o dejar libre una parte de un volumen construido',
+      'Separar las torres para generar vacíos',
+    ],
+    answer: 1,
+    explain: 'Un retranqueo o un espacio abierto en un bloque puede generar terrazas, patios o recorridos: espacios de transición.',
+  },
+  {
+    q: '¿Qué operación comparten los tres referentes?',
+    options: ['La modulación', 'La cubierta verde', 'La propiedad horizontal'],
+    answer: 0,
+    explain: 'La modulación organiza o repite elementos siguiendo una regla. En el esquema se relaciona con la organización y con lo colectivo.',
+  },
+  {
+    q: '¿Qué tensión plantea el flujograma sobre las torres separadas de Alcaraván?',
+    options: [
+      'Generan vacíos que pueden limitar la comunidad',
+      'Impiden la privacidad de cada vivienda',
+      'Eliminan los recorridos por completo',
+    ],
+    answer: 0,
+    explain: 'Tener zonas comunes no basta: importan la distancia entre viviendas, la continuidad de los recorridos y la facilidad para encontrarse.',
+  },
+  {
+    q: '¿Qué secuencia propone el flujograma para Casa Moriyama?',
+    options: [
+      'Núcleo → zonas comunes → unión',
+      'Sustracción → recorridos → integración',
+      'Fragmentación → vacíos → comunidad',
+    ],
+    answer: 2,
+    explain: 'Estas secuencias explican la lógica analizada; no garantizan el resultado: generar vacíos no produce comunidad automáticamente.',
+  },
+  {
+    q: '¿Qué debe aprender el usuario de Ventum sobre «integrar»?',
+    options: [
+      'Que consiste en colocar muchas viviendas en un mismo edificio',
+      'Que también implica diseñar conexiones, espacios de transición y relación con el entorno',
+      'Que exige eliminar el espacio privado',
+    ],
+    answer: 1,
+    explain: 'Integrar es lograr que las partes funcionen relacionadas entre sí, no quedar como elementos aislados.',
   },
 ]
 
 export const glossary: { term: string; def: string }[] = [
-  { term: 'Autogestión', def: 'Los residentes toman las decisiones de diseño, uso y mantenimiento del conjunto.' },
-  { term: 'Espacio común', def: 'Área de uso compartido por los residentes: comedor, lavandería, huerto, taller, terraza.' },
-  { term: 'Propiedad horizontal', def: 'Régimen en el que cada propietario tiene su unidad y comparte la copropiedad de las áreas comunes.' },
-  { term: 'Arquitectura bioclimática', def: 'Diseño que aprovecha sol, viento y vegetación para reducir el consumo energético.' },
-  { term: 'Flexibilidad espacial', def: 'Capacidad de una vivienda de adaptarse a distintos usos o tamaños de hogar sin cambiar la estructura.' },
-  { term: 'Ventilación cruzada', def: 'Corriente de aire entre fachadas opuestas que renueva y refresca el interior.' },
-  { term: 'Gradiente de privacidad', def: 'Transición graduada entre lo público, lo común, el umbral y lo privado.' },
-  { term: 'Núcleo de circulación', def: 'Agrupación de escaleras, ascensores y pasillos que organizan los recorridos del edificio.' },
+  { term: 'Vivienda que comparte', def: 'Manera de habitar en la que la vida privada se relaciona con espacios o experiencias comunes. Lo importante es qué comparte cada habitante, cómo lo comparte y qué relación establece con los demás.' },
+  { term: 'Lo privado', def: 'Espacios que pertenecen a cada vivienda (habitaciones, baño, cocina privada). Dan intimidad, tranquilidad y autonomía.' },
+  { term: 'Lo compartido', def: 'Espacios que pueden utilizar varias personas: patios, jardines, zonas comunes, circulaciones o lugares de encuentro.' },
+  { term: 'La conexión', def: 'Manera en que las personas pasan de lo privado a lo común: pasillos, patios, accesos, visuales o espacios intermedios.' },
+  { term: 'Núcleo', def: 'Concentra las actividades o espacios comunes en una zona determinada (Alcaraván).' },
+  { term: 'Ciudad dentro de ciudad', def: 'Idea de un conjunto residencial con su propia organización interna (Alcaraván).' },
+  { term: 'Modulación', def: 'Organizar o repetir elementos o unidades siguiendo una regla. Es la operación que comparten los tres referentes.' },
+  { term: 'Fragmentación', def: 'Dividir la composición en varios volúmenes separados, en lugar de un único edificio compacto (Moriyama).' },
+  { term: 'Vacíos', def: 'Espacios libres que quedan entre las piezas construidas. El espacio vacío también es arquitectura.' },
+  { term: 'Porosidad', def: 'Espacios y aperturas que conectan el interior con el exterior: la construcción no se comporta como una masa cerrada.' },
+  { term: 'Recorridos', def: 'Caminos que conectan las diferentes partes del proyecto y llevan de la entrada a la vivienda y a los espacios comunes.' },
+  { term: 'Sustracción', def: 'Retirar o dejar libre una parte de un volumen construido; puede generar terrazas, patios o recorridos (Ventum).' },
+  { term: 'Integración', def: 'Conseguir que distintas partes del proyecto funcionen relacionadas entre sí, en lugar de quedar aisladas (Ventum).' },
+  { term: 'Retranqueo', def: 'Retiro de una parte del volumen respecto al resto de la fachada; genera espacios abiertos de transición.' },
 ]

@@ -1,6 +1,6 @@
 # Habitar Juntos
 
-App didáctica en 3D sobre vivienda compartida (cohousing, coliving y vivienda colectiva).
+App didáctica en 3D sobre la vivienda que comparte, con tres referentes: Conjunto Alcaraván, Casa Moriyama y Edificio Ventum.
 
 Stack: Bun, Vite, React, Tailwind CSS v4, three.js (react-three-fiber).
 

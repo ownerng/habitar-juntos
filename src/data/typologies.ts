@@ -24,18 +24,21 @@ export interface Typology {
   name: string
   tagline: string
   summary: string
-  privatePct: number
-  commonPct: number
+  /** secuencia conceptual del flujograma */
+  sequence: [string, string, string]
+  /** pregunta que guía el referente */
+  question: string
   overview: { pos: V3; target: V3 }
   /** degradado del cielo [arriba, horizonte] y color del sol */
   sky: [string, string]
   sun: string
   steps: Step[]
   compare: {
-    diseno: string
-    estancia: string
-    privado: string
-    gestion: string
+    idea: string
+    pregunta: string
+    secuencia: string
+    positivo: string
+    tension: string
   }
 }
 
@@ -54,258 +57,67 @@ export const zoneLabels: Record<Zone, string> = {
 }
 
 export const typologies: Record<TypologyId, Typology> = {
-  cohousing: {
-    id: 'cohousing',
-    num: '01',
-    name: 'Cohousing',
-    tagline: 'Vivienda colaborativa',
-    summary:
-      'Autogestionado y cooperativo: los futuros residentes participan en el diseño y el mantenimiento. Cada hogar tiene su casa completa e independiente; lo común se concentra en espacios de alto valor compartido.',
-    privatePct: 60,
-    commonPct: 40,
-    overview: { pos: [12.5, 9.5, 15], target: [0, 0.4, 0] },
-    sky: ['#1b3a44', '#f0b27a'],
-    sun: '#ffd9a0',
-    steps: [
-      {
-        id: 'co-casa',
-        label: 'Casa común',
-        zone: 'comun',
-        floor: 0,
-        anchor: [0, 1.1, -2.6],
-        view: [3.2, 1.6, 5.2],
-        concept: 'El corazón social del conjunto',
-        detail:
-          'Comedor, cocina colectiva y sala de reunión en un único volumen. Se ubica donde se cruzan los recorridos para que el encuentro sea espontáneo y no una obligación.',
-        keyFact: 'Suele ocupar entre el 15 % y el 25 % de la superficie construida.',
-      },
-      {
-        id: 'co-privada',
-        label: 'Vivienda privada',
-        zone: 'privado',
-        floor: 0,
-        anchor: [3.3, 1.0, -0.4],
-        view: [-5.2, 1.8, 3.2],
-        concept: 'Independencia total en lo privado',
-        detail:
-          'Cada familia tiene vivienda completa con cocina, baño y habitaciones. La identidad de cada casa (color, techo) refuerza la sensación de hogar propio dentro de la comunidad.',
-        keyFact: 'El derecho de uso es indefinido: los residentes se quedan a largo plazo.',
-      },
-      {
-        id: 'co-huerto',
-        label: 'Huerto compartido',
-        zone: 'bioclimatico',
-        floor: 0,
-        anchor: [0, 0.4, 2.4],
-        view: [3.6, 2.6, 4.6],
-        concept: 'Un recurso que se cuida entre todos',
-        detail:
-          'El huerto y los exteriores comunes son tareas colectivas: generan vínculo, producen alimento y suavizan el microclima del patio.',
-        keyFact: 'La autogestión se ejercita también en lo cotidiano.',
-      },
-      {
-        id: 'co-patio',
-        label: 'Patio y recorridos',
-        zone: 'circulacion',
-        floor: 0,
-        anchor: [0, 0.1, 0.8],
-        view: [0.5, 6.5, 5.5],
-        concept: 'Gradiente de privacidad',
-        detail:
-          'Las casas miran al patio central: el recorrido diario pasa por lo común antes de llegar a lo privado (calle → patio → umbral → casa).',
-        keyFact: 'Privado → umbral → común.',
-      },
-      {
-        id: 'co-interior',
-        label: 'Dentro de una casa',
-        zone: 'privado',
-        floor: 0,
-        anchor: [-3.3, 0.5, -0.4],
-        view: [1.1, 0.9, 0.5],
-        inside: true,
-        concept: 'Una vivienda completa, en pequeño',
-        detail:
-          'Estar con sofá y TV, cocina-comedor, dormitorio y baño propios. Nada se comparte por obligación: lo común es una elección, no una carencia del hogar.',
-        keyFact: 'Cada casa es autosuficiente: 40–90 m² con todos los servicios.',
-      },
-      {
-        id: 'co-comedor',
-        label: 'Interior de la casa común',
-        zone: 'comun',
-        floor: 0,
-        anchor: [0, 0.5, -2.6],
-        view: [0.3, 1.0, 2.0],
-        inside: true,
-        concept: 'Comer juntos varias veces a la semana',
-        detail:
-          'Un comedor para toda la comunidad, cocina colectiva con isla, rincón de estar y biblioteca. Cocinar por turnos libera tiempo y fortalece los lazos.',
-        keyFact: 'La cena comunitaria es el ritual que sostiene al grupo.',
-      },
-    ],
-    compare: {
-      diseno: 'Participativo por los usuarios',
-      estancia: 'Permanente / largo plazo',
-      privado: 'Completo (vivienda entera)',
-      gestion: 'Autogestionada por vecinos',
-    },
-  },
-
-  coliving: {
-    id: 'coliving',
-    num: '02',
-    name: 'Coliving',
-    tagline: 'Vivienda compartida flexible',
-    summary:
-      'Evolución moderna para estudiantes, jóvenes profesionales y nómadas digitales. La unidad privada se compacta (habitación y baño) y el edificio se apoya en grandes áreas comunes con servicios.',
-    privatePct: 35,
-    commonPct: 65,
-    overview: { pos: [10.5, 8, 13], target: [0, 1.6, 0] },
-    sky: ['#231a4a', '#e8789f'],
-    sun: '#ffc2d8',
-    steps: [
-      {
-        id: 'cl-baja',
-        label: 'Planta baja compartida',
-        zone: 'comun',
-        floor: 0,
-        anchor: [-0.4, 0.6, 1.5],
-        view: [-2.8, 1.4, 5.6],
-        concept: 'La vida social baja a la calle',
-        detail:
-          'Cocinas profesionales, coworking y zonas de estar ocupan la planta baja, acristalada hacia el espacio público. Aquí está el programa que justifica vivir en una unidad pequeña.',
-        keyFact: 'Se administra como un servicio, no como un jardín compartido.',
-      },
-      {
-        id: 'cl-unidad',
-        label: 'Unidad compacta',
-        zone: 'privado',
-        floor: 1,
-        anchor: [-1.3, 1.8, 1.5],
-        view: [-3.4, 1.6, 5.2],
-        concept: 'Espacio privado reducido',
-        detail:
-          'Habitación y baño optimizados: mobiliario integrado, baño prefabricado y una ventana por unidad. Se gana densidad y se baja el costo por habitante.',
-        keyFact: 'Unidades de 12 a 20 m² con contratos flexibles.',
-      },
-      {
-        id: 'cl-nucleo',
-        label: 'Núcleo vertical',
-        zone: 'circulacion',
-        floor: 1,
-        anchor: [2.05, 1.8, 0],
-        view: [5.4, 2.2, 4.2],
-        concept: 'Una sola circulación para todos',
-        detail:
-          'Escalera y ascensor concentrados en un extremo liberan la planta para habitaciones y simplifican la gestión del edificio.',
-        keyFact: 'Planta tipo repetible = construcción más eficiente.',
-      },
-      {
-        id: 'cl-terraza',
-        label: 'Terraza común',
-        zone: 'comun',
-        floor: 3,
-        anchor: [0, 3.9, 0],
-        view: [5.6, 3.6, 6.2],
-        concept: 'Amenities en la cubierta',
-        detail:
-          'Terraza, huerto urbano y cine al aire libre compensan la compacidad de las habitaciones con espacio de ocio y vistas.',
-        keyFact: 'Delega la administración a una empresa operadora a cambio de un alquiler mensual.',
-      },
-      {
-        id: 'cl-hab',
-        label: 'Habitación compacta',
-        zone: 'privado',
-        floor: 1,
-        anchor: [-1.0, 1.5, 0.8],
-        view: [0.3, 0.9, 1.6],
-        inside: true,
-        concept: 'Cama, escritorio y baño en 15 m²',
-        detail:
-          'Cada unidad tiene cama, escritorio, armario y baño propio; las ocho dan a un pasillo central. Todo lo que no cabe en la habitación vive en la planta baja.',
-        keyFact: 'Ocho unidades por planta compartiendo un solo núcleo vertical.',
-      },
-      {
-        id: 'cl-cowork-int',
-        label: 'Cocina y coworking',
-        zone: 'comun',
-        floor: 0,
-        anchor: [-0.4, 0.4, 0],
-        view: [0.4, 1.0, 1.8],
-        inside: true,
-        concept: 'La planta baja es la sala de estar de todos',
-        detail:
-          'Cocina colectiva con isla y mesa grande, puestos de coworking con doble pantalla y un rincón de cine. Es el programa que justifica vivir en una habitación mínima.',
-        keyFact: 'Las áreas comunes pueden superar el 60 % de la superficie.',
-      },
-    ],
-    compare: {
-      diseno: 'Diseñado por desarrolladores',
-      estancia: 'Temporal / flexible',
-      privado: 'Reducido (estudio o habitación)',
-      gestion: 'Empresa administradora externa',
-    },
-  },
-
+  // Conjunto Alcaraván: concentración (maqueta de bloque modular con núcleo central)
   colectiva: {
     id: 'colectiva',
-    num: '03',
-    name: 'Vivienda Colectiva',
-    tagline: 'Muchos hogares, una estructura',
+    num: '01',
+    name: 'Alcaraván',
+    tagline: 'Conjunto Alcaraván · Concentrar',
     summary:
-      'Edificio residencial para múltiples familias bajo una misma estructura. Las tendencias actuales integran criterios bioclimáticos, flexibilidad espacial y servicios compartidos para optimizar energía y suelo.',
-    privatePct: 75,
-    commonPct: 25,
+      'Las viviendas se organizan dentro de un conjunto residencial y las zonas comunes adquieren importancia. Aunque cada familia tiene su propio apartamento, comparte espacios y pertenece a una comunidad: una «ciudad dentro de ciudad».',
+    sequence: ['Núcleo', 'Zonas comunes', 'Unión'],
+    question: '¿Dónde se reúnen las personas?',
     overview: { pos: [10.5, 7.5, 12.5], target: [0, 1.4, 0] },
     sky: ['#0f3a5c', '#a9dcd6'],
     sun: '#fff3c8',
     steps: [
       {
         id: 'vc-nucleo',
-        label: 'Núcleo de circulación',
+        label: 'Núcleo',
         zone: 'circulacion',
         floor: 1,
         anchor: [0, 1.7, 1.3],
         view: [3.2, 1.6, 5.2],
-        concept: 'Escalera y ascensor al centro',
+        concept: 'Concentrar las actividades en un núcleo',
         detail:
-          'Un núcleo central reparte a dos viviendas por planta. Con una buena distribución, cada vivienda tiene doble orientación y puede ventilar de lado a lado.',
-        keyFact: 'Eficiencia = superficie útil / superficie construida.',
+          'El núcleo reúne en una zona determinada las actividades y espacios comunes, y desde él se organizan las viviendas. Es el punto de partida de la secuencia: núcleo → zonas comunes → unión.',
+        keyFact: 'Pregunta guía: ¿dónde se reúnen las personas?',
       },
       {
         id: 'vc-viento',
-        label: 'Ventilación cruzada',
-        zone: 'bioclimatico',
+        label: 'Modulación',
+        zone: 'privado',
         floor: 1,
         anchor: [1.7, 1.7, 0],
         view: [7, 2.4, 3.2],
-        concept: 'Aire que atraviesa la vivienda',
+        concept: 'Repetir una unidad para ordenar el conjunto',
         detail:
-          'Las ventanas en fachadas opuestas crean una corriente que renueva y refresca el interior sin energía. Es la estrategia bioclimática más barata y más olvidada.',
-        keyFact: 'Se diseña con la planta: ventanas enfrentadas y sin muros que bloqueen.',
+          'La modulación repite elementos o unidades siguiendo una regla. Aquí, la misma vivienda se multiplica por plantas y a ambos lados del núcleo. Es una operación que comparten los tres referentes.',
+        keyFact: 'La repetición permite construir un conjunto ordenado.',
       },
       {
         id: 'vc-azotea',
-        label: 'Azotea bioclimática',
-        zone: 'bioclimatico',
+        label: 'Zonas comunes',
+        zone: 'comun',
         floor: 3,
         anchor: [0, 3.6, 0],
         view: [5.4, 4.2, 6.2],
-        concept: 'Recursos que se comparten',
+        concept: 'Espacios que pueden usar varios residentes',
         detail:
-          'Paneles solares orientados al sol, cubierta verde que aísla y retiene el agua, y un tanque de lluvia: beneficios comunes para todos los hogares.',
-        keyFact: 'Compartir recursos baja costos y huella de carbono.',
+          'Las zonas comunes reúnen los espacios compartidos y concentran las actividades colectivas, lo que facilita organizarlos. El reto es que no queden desconectados de la vida cotidiana.',
+        keyFact: 'Tener zonas comunes no garantiza que las personas se relacionen.',
       },
       {
         id: 'vc-tipo',
-        label: 'Vivienda tipo',
-        zone: 'privado',
+        label: 'Tensión: vacíos entre torres',
+        zone: 'circulacion',
         floor: 0,
         anchor: [-1.7, 0.7, 1.3],
         view: [-4.4, 1.8, 5],
-        concept: 'Flexibilidad espacial',
+        concept: 'Cuando las torres se separan, aparecen vacíos',
         detail:
-          'Plantas libres con tabiquería removible permiten adaptar la vivienda al tamaño del hogar a lo largo del tiempo, sin tocar la estructura.',
-        keyFact: 'Gestión por copropiedad (propiedad horizontal).',
+          'El flujograma señala que las torres separadas generan vacíos que pueden limitar la comunidad. Importan la distancia entre las viviendas, la continuidad de los recorridos y la facilidad para encontrarse.',
+        keyFact: 'Los vacíos suman en Moriyama, pero restan en Alcaraván.',
       },
       {
         id: 'vc-interior',
@@ -315,19 +127,232 @@ export const typologies: Record<TypologyId, Typology> = {
         anchor: [-1.7, 1.6, 0],
         view: [0.4, 1.0, 1.7],
         inside: true,
-        concept: 'Zona de día y zona de noche',
+        concept: 'Lo privado dentro del conjunto',
         detail:
-          'Estar-cocina-comedor hacia la fachada con balcón; dormitorio, estudio y baño agrupados atrás. Separar día y noche ordena la vivienda y facilita la ventilación cruzada.',
-        keyFact: 'Núcleo central con escalera y ascensor sirve a todas las plantas.',
+          'Cada familia tiene su propio apartamento: habitaciones, baño y cocina privada que dan intimidad, tranquilidad y autonomía. Desde aquí se sale hacia el núcleo y las zonas comunes.',
+        keyFact: 'Privado, compartido y conexión: los tres elementos de la vivienda que comparte.',
       },
     ],
     compare: {
-      diseno: 'Arquitectos / promotores',
-      estancia: 'Permanente / variable',
-      privado: 'Completo (vivienda entera)',
-      gestion: 'Copropiedad o administración básica',
+      idea: 'Concentración',
+      pregunta: '¿Dónde se reúnen las personas?',
+      secuencia: 'Núcleo → zonas comunes → unión',
+      positivo: 'Organiza las viviendas y concentra las zonas comunes; la repetición ordena el conjunto.',
+      tension: 'Las torres separadas generan vacíos que pueden limitar la comunidad.',
+    },
+  },
+
+  // Casa Moriyama: fragmentación y porosidad (maqueta de volúmenes separados)
+  cohousing: {
+    id: 'cohousing',
+    num: '02',
+    name: 'Casa Moriyama',
+    tagline: 'Tokio, Japón · Separar y conectar',
+    summary:
+      'En lugar de reunir todo en un único edificio compacto, el proyecto se divide en varios volúmenes separados. Los espacios vacíos entre las piezas adquieren importancia: conectan interior y exterior y generan recorridos y visuales.',
+    sequence: ['Fragmentación', 'Vacíos', 'Comunidad'],
+    question: '¿Qué sucede entre las viviendas?',
+    overview: { pos: [12.5, 9.5, 15], target: [0, 0.4, 0] },
+    sky: ['#1b3a44', '#f0b27a'],
+    sun: '#ffd9a0',
+    steps: [
+      {
+        id: 'co-casa',
+        label: 'Fragmentación',
+        zone: 'comun',
+        floor: 0,
+        anchor: [0, 1.1, -2.6],
+        view: [3.2, 1.6, 5.2],
+        concept: 'Dividir una construcción grande en piezas pequeñas',
+        detail:
+          'La composición se divide en varios volúmenes separados, como partir un edificio compacto en piezas más pequeñas. Es el primer paso de la secuencia: fragmentación → vacíos → comunidad.',
+        keyFact: 'Fragmentar es lo opuesto a concentrar, como en Alcaraván.',
+      },
+      {
+        id: 'co-privada',
+        label: 'Modulación y privacidad',
+        zone: 'privado',
+        floor: 0,
+        anchor: [3.3, 1.0, -0.4],
+        view: [-5.2, 1.8, 3.2],
+        concept: 'Cada pieza, una unidad con su grado de privacidad',
+        detail:
+          'Los volúmenes se organizan con unidades y reglas de repetición. Al estar separados permiten estudiar distintos grados de privacidad: ¿se puede compartir sin perder la intimidad?',
+        keyFact: 'La modulación es una operación que comparten los tres referentes.',
+      },
+      {
+        id: 'co-huerto',
+        label: 'Vacíos',
+        zone: 'comun',
+        floor: 0,
+        anchor: [0, 0.4, 2.4],
+        view: [3.6, 2.6, 4.6],
+        concept: 'El espacio vacío también es arquitectura',
+        detail:
+          'Los vacíos son los espacios libres que quedan entre las piezas construidas. Pueden ser tan importantes como los edificios mismos, pero generar vacíos no produce comunidad automáticamente: importa cómo se usan.',
+        keyFact: 'Los vacíos suman en Moriyama.',
+      },
+      {
+        id: 'co-patio',
+        label: 'Recorridos y visuales',
+        zone: 'circulacion',
+        floor: 0,
+        anchor: [0, 0.1, 0.8],
+        view: [0.5, 6.5, 5.5],
+        concept: 'Conectar las piezas',
+        detail:
+          'Los recorridos conectan las distintas partes del proyecto y las separaciones permiten relaciones visuales entre viviendas. Si los recorridos no están bien resueltos, la separación dificulta la continuidad.',
+        keyFact: 'La tensión: separar puede abrir, pero también desconectar.',
+      },
+      {
+        id: 'co-interior',
+        label: 'Porosidad',
+        zone: 'privado',
+        floor: 0,
+        anchor: [-3.3, 0.5, -0.4],
+        view: [1.1, 0.9, 0.5],
+        inside: true,
+        concept: 'Interior y exterior en relación',
+        detail:
+          'La porosidad son los espacios y aperturas que conectan el interior con el exterior: la construcción no es una masa cerrada. Favorece la entrada de luz y la conexión con el exterior.',
+        keyFact: 'Compartir sin perder la intimidad: transición clara entre lo privado y lo común.',
+      },
+      {
+        id: 'co-comedor',
+        label: 'Comunidad y zonas comunes',
+        zone: 'comun',
+        floor: 0,
+        anchor: [0, 0.5, -2.6],
+        view: [0.3, 1.0, 2.0],
+        inside: true,
+        concept: 'Lugares para encontrarse',
+        detail:
+          'Los espacios comunes permiten conversar, jugar o hacer actividades juntos. La app te invita a estudiar cómo esta distribución de piezas y vacíos puede favorecer la convivencia.',
+        keyFact: 'Un patio compartido que nadie usa suele estar mal conectado con las viviendas.',
+      },
+    ],
+    compare: {
+      idea: 'Fragmentación y porosidad',
+      pregunta: '¿Qué sucede entre las viviendas?',
+      secuencia: 'Fragmentación → vacíos → comunidad',
+      positivo: 'Los vacíos y recorridos amplían las relaciones visuales, la luz y la conexión con el exterior.',
+      tension: 'Si los recorridos no están bien resueltos, la separación dificulta la continuidad entre viviendas.',
+    },
+  },
+
+  // Edificio Ventum: integración (maqueta de torre con sustracción en cubierta)
+  coliving: {
+    id: 'coliving',
+    num: '03',
+    name: 'Ventum',
+    tagline: 'Edificio Ventum · Integrar',
+    summary:
+      'Representa la integración mediante la sustracción, la modulación y la organización de recorridos. Retirar o dejar libre parte de un volumen genera terrazas, patios o recorridos que relacionan las distintas áreas.',
+    sequence: ['Sustracción', 'Recorridos', 'Integración'],
+    question: '¿Cómo se conectan las partes?',
+    overview: { pos: [10.5, 8, 13], target: [0, 1.6, 0] },
+    sky: ['#231a4a', '#e8789f'],
+    sun: '#ffc2d8',
+    steps: [
+      {
+        id: 'cl-baja',
+        label: 'Altura y entorno',
+        zone: 'comun',
+        floor: 0,
+        anchor: [-0.4, 0.6, 1.5],
+        view: [-2.8, 1.4, 5.6],
+        concept: 'Vivienda concentrada en altura',
+        detail:
+          'Ventum concentra la vivienda en altura y su relación con el entorno es limitada. Es una interpretación comparativa del esquema, no una afirmación de que todos los edificios en altura tengan este problema.',
+        keyFact: 'Tensión: altura vs. porosidad.',
+      },
+      {
+        id: 'cl-unidad',
+        label: 'Modulación',
+        zone: 'privado',
+        floor: 1,
+        anchor: [-1.3, 1.8, 1.5],
+        view: [-3.4, 1.6, 5.2],
+        concept: 'Reglas de repetición',
+        detail:
+          'La modulación organiza los elementos mediante reglas de repetición. Puede contribuir a una organización clara de las viviendas, planta tras planta.',
+        keyFact: 'Modular: repetir elementos siguiendo una regla.',
+      },
+      {
+        id: 'cl-nucleo',
+        label: 'Recorridos',
+        zone: 'circulacion',
+        floor: 1,
+        anchor: [2.05, 1.8, 0],
+        view: [5.4, 2.2, 4.2],
+        concept: 'Conectar las distintas zonas',
+        detail:
+          'Los recorridos conectan las distintas zonas del edificio. Integrar no es colocar muchas viviendas en un mismo edificio: también es diseñar las conexiones entre ellas.',
+        keyFact: 'Sustracción → recorridos → integración.',
+      },
+      {
+        id: 'cl-terraza',
+        label: 'Sustracción',
+        zone: 'comun',
+        floor: 3,
+        anchor: [0, 3.9, 0],
+        view: [5.6, 3.6, 6.2],
+        concept: 'Retirar para generar espacio',
+        detail:
+          'Sustraer es retirar o dejar libre una parte de un volumen construido. Si a un bloque de apartamentos se le deja un espacio abierto o un retranqueo, aparecen terrazas, patios o recorridos: espacios de transición.',
+        keyFact: 'La sustracción crea espacios libres a partir del volumen.',
+      },
+      {
+        id: 'cl-hab',
+        label: 'Dentro de una unidad',
+        zone: 'privado',
+        floor: 1,
+        anchor: [-1.0, 1.5, 0.8],
+        view: [0.3, 0.9, 1.6],
+        inside: true,
+        concept: 'Lo privado en el edificio',
+        detail:
+          'Cada unidad conserva su espacio privado (habitación, baño) para la intimidad y la autonomía, y se conecta con el resto mediante los recorridos del edificio.',
+        keyFact: 'Del espacio privado al común: la conexión es parte del diseño.',
+      },
+      {
+        id: 'cl-cowork-int',
+        label: 'Integración',
+        zone: 'comun',
+        floor: 0,
+        anchor: [-0.4, 0.4, 0],
+        view: [0.4, 1.0, 1.8],
+        inside: true,
+        concept: 'Que las partes funcionen relacionadas',
+        detail:
+          'Integrar es conseguir que las distintas partes del proyecto funcionen relacionadas entre sí, en lugar de quedar como elementos aislados: organización interior y relación con el entorno.',
+        keyFact: 'Integrar también es diseñar transiciones y la relación con el entorno.',
+      },
+    ],
+    compare: {
+      idea: 'Integración',
+      pregunta: '¿Cómo se conectan las partes?',
+      secuencia: 'Sustracción → recorridos → integración',
+      positivo: 'La sustracción crea espacios de transición y la modulación aporta una organización clara.',
+      tension: 'Vivienda concentrada en altura, con una relación limitada con el entorno.',
     },
   },
 }
 
 export const typologyList = Object.values(typologies)
+
+/** Tensiones identificadas en el flujograma (interpretaciones, no reglas universales) */
+export const tensions: { title: string; text: string }[] = [
+  {
+    title: 'Vacíos',
+    text: 'Suman en Moriyama, pero restan en Alcaraván y Ventum por la separación en torres.',
+  },
+  {
+    title: 'Dispersión vs. núcleo',
+    text: 'La fragmentación asociada con Ventum y Moriyama se contrapone a la concentración en el núcleo de Alcaraván.',
+  },
+  {
+    title: 'Altura vs. porosidad',
+    text: 'Ventum concentra la vivienda en altura con una relación limitada con el entorno; Alcaraván combina torres rígidas con espacios comunes concentrados.',
+  },
+]

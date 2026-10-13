@@ -20,7 +20,7 @@ interface AppState {
 }
 
 export const useApp = create<AppState>((set, get) => ({
-  typology: 'cohousing',
+  typology: 'colectiva',
   step: -1,
   explode: 0,
   inside: false,

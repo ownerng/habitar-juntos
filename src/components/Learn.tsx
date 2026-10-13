@@ -1,14 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { glossary, quiz } from '../data/learn'
-import { typologyList } from '../data/typologies'
+import { tensions, typologyList } from '../data/typologies'
 import { useApp } from '../store/useApp'
 
 const rows = [
-  ['Diseño', 'diseno'],
-  ['Estancia', 'estancia'],
-  ['Espacio privado', 'privado'],
-  ['Gestión', 'gestion'],
+  ['Idea principal', 'idea'],
+  ['Pregunta guía', 'pregunta'],
+  ['Secuencia', 'secuencia'],
+  ['Aporta', 'positivo'],
+  ['Tensión', 'tension'],
 ] as const
 
 export function Comparator() {
@@ -36,33 +37,18 @@ export function Comparator() {
         </div>
       ))}
       <div>
-        <p className="mono mb-2 text-[11px] uppercase tracking-[0.18em] text-white/50">Privado / Común</p>
+        <p className="mono mb-2 text-[11px] uppercase tracking-[0.18em] text-white/50">Tensiones del flujograma</p>
         <div className="grid gap-3">
-          {typologyList.map((t) => (
-            <div key={t.id}>
-              <div className="mb-1 flex justify-between text-xs text-white/70">
-                <span>{t.name}</span>
-                <span className="mono">
-                  {t.privatePct} / {t.commonPct}
-                </span>
-              </div>
-              <div className="flex h-1.5 overflow-hidden rounded-full bg-white/10">
-                <motion.div
-                  className="bg-[#ffb15c]"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${t.privatePct}%` }}
-                  transition={{ duration: 0.8 }}
-                />
-                <motion.div
-                  className="bg-[#6ea8ff]"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${t.commonPct}%` }}
-                  transition={{ duration: 0.8 }}
-                />
-              </div>
+          {tensions.map((t) => (
+            <div key={t.title} className="border-l-2 border-[#ffb15c] pl-3">
+              <p className="display text-base">{t.title}</p>
+              <p className="mt-0.5 text-sm text-white/65">{t.text}</p>
             </div>
           ))}
         </div>
+        <p className="mt-3 text-xs italic text-white/45">
+          Son interpretaciones del esquema comparativo, no reglas universales para toda vivienda colectiva.
+        </p>
       </div>
     </div>
   )
@@ -95,7 +81,7 @@ export function Quiz() {
           <span className="text-white/40">/{quiz.length}</span>
         </p>
         <p className="mt-3 text-white/70">
-          {score >= 4 ? 'Dominas la vivienda compartida.' : 'Recorre la maqueta otra vez y vuelve a intentarlo.'}
+          {score >= 4 ? 'Dominas la vivienda que comparte.' : 'Recorre la maqueta otra vez y vuelve a intentarlo.'}
         </p>
         <button onClick={reset} className="btn mt-6">
           Reintentar
