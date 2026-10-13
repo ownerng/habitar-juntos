@@ -82,7 +82,7 @@ export function Pop({
   const t = useRef(0)
 
   useFrame((_, dt) => {
-    t.current += Math.min(dt, 0.05)
+    t.current += Math.min(dt, 0.3)
     const g = ref.current
     const p = THREE.MathUtils.clamp((t.current - delay) / 0.8, 0, 1)
     g.scale.setScalar(p <= 0 ? 0.0001 : Math.max(easeOutBack(p), 0.0001))
@@ -483,5 +483,207 @@ export function Cloud({ y, z, speed, scale = 1, offset = 0 }: { y: number; z: nu
         </mesh>
       ))}
     </group>
+  )
+}
+
+export function Lamp({ position, delay = 0.8 }: { position: V3; delay?: number }) {
+  return (
+    <Pop position={position} delay={delay}>
+      <mesh position={[0, 0.4, 0]} castShadow>
+        <cylinderGeometry args={[0.025, 0.035, 0.8, 6]} />
+        <ZMat zone="circulacion" color="#2b3a46" />
+      </mesh>
+      <mesh position={[0, 0.85, 0]}>
+        <sphereGeometry args={[0.09, 10, 10]} />
+        <ZMat zone="circulacion" color="#ffe3a3" glow />
+      </mesh>
+    </Pop>
+  )
+}
+
+export function Bench({ position, rotY = 0, delay = 0.8, zone = 'comun' }: { position: V3; rotY?: number; delay?: number; zone?: Zone }) {
+  return (
+    <Pop position={position} rotation={[0, rotY, 0]} delay={delay}>
+      <mesh position={[0, 0.2, 0]} castShadow>
+        <boxGeometry args={[0.7, 0.05, 0.22]} />
+        <ZMat zone={zone} color="#a98363" />
+      </mesh>
+      <mesh position={[0, 0.37, -0.1]} castShadow>
+        <boxGeometry args={[0.7, 0.18, 0.04]} />
+        <ZMat zone={zone} color="#a98363" />
+      </mesh>
+      {[-0.28, 0.28].map((x) => (
+        <mesh key={x} position={[x, 0.1, 0]}>
+          <boxGeometry args={[0.05, 0.2, 0.2]} />
+          <ZMat zone={zone} color="#4a4a4a" />
+        </mesh>
+      ))}
+    </Pop>
+  )
+}
+
+export function PicnicTable({ position, rotY = 0, delay = 0.8 }: { position: V3; rotY?: number; delay?: number }) {
+  return (
+    <Pop position={position} rotation={[0, rotY, 0]} delay={delay}>
+      <mesh position={[0, 0.3, 0]} castShadow>
+        <boxGeometry args={[0.9, 0.05, 0.45]} />
+        <ZMat zone="comun" color="#b08a66" />
+      </mesh>
+      {[-0.36, 0.36].map((z) => (
+        <mesh key={z} position={[0, 0.17, z * 0.9 + (z > 0 ? 0.1 : -0.1)]} castShadow>
+          <boxGeometry args={[0.9, 0.04, 0.14]} />
+          <ZMat zone="comun" color="#b08a66" />
+        </mesh>
+      ))}
+    </Pop>
+  )
+}
+
+export function Flowers({ position, n = 7, delay = 0.9, spread = 0.5 }: { position: V3; n?: number; delay?: number; spread?: number }) {
+  const cols = ['#ff7a9c', '#ffd24a', '#ffffff', '#c58bff']
+  return (
+    <Pop position={position} delay={delay}>
+      {Array.from({ length: n }).map((_, i) => {
+        const a = i * 2.4
+        const r = ((i * 37) % 10) / 10 * spread
+        return (
+          <mesh key={i} position={[Math.cos(a) * r, 0.1, Math.sin(a) * r]}>
+            <icosahedronGeometry args={[0.075, 0]} />
+            <ZMat zone="bioclimatico" color={cols[i % cols.length]} />
+          </mesh>
+        )
+      })}
+    </Pop>
+  )
+}
+
+export function Fence({ position, length = 2, rotY = 0, delay = 0.8, zone = 'privado' }: { position: V3; length?: number; rotY?: number; delay?: number; zone?: Zone }) {
+  const n = Math.max(2, Math.round(length / 0.28))
+  return (
+    <Pop position={position} rotation={[0, rotY, 0]} delay={delay}>
+      {Array.from({ length: n + 1 }).map((_, i) => (
+        <mesh key={i} position={[-length / 2 + (i * length) / n, 0.14, 0]}>
+          <boxGeometry args={[0.04, 0.28, 0.04]} />
+          <ZMat zone={zone} color="#f6efe2" />
+        </mesh>
+      ))}
+      <mesh position={[0, 0.2, 0]}>
+        <boxGeometry args={[length, 0.035, 0.03]} />
+        <ZMat zone={zone} color="#f6efe2" />
+      </mesh>
+    </Pop>
+  )
+}
+
+const walkerPhase = (x: number, z: number) => (x * 3.1 + z * 1.7) % 6.28
+
+/** Persona que camina de un punto a otro y vuelve. */
+export function Person({
+  from,
+  to,
+  speed = 0.12,
+  color = '#e0556b',
+  delay = 1,
+}: {
+  from: [number, number]
+  to: [number, number]
+  speed?: number
+  color?: string
+  delay?: number
+}) {
+  const ref = useRef<THREE.Group>(null!)
+  const ph = walkerPhase(from[0], from[1])
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime
+    if (t < delay) {
+      ref.current.visible = false
+      return
+    }
+    ref.current.visible = true
+    const u = (t * speed + ph) % 2
+    const p = u < 1 ? u : 2 - u
+    const x = from[0] + (to[0] - from[0]) * p
+    const z = from[1] + (to[1] - from[1]) * p
+    ref.current.position.set(x, 0.02 + Math.abs(Math.sin(t * 7 + ph)) * 0.025, z)
+    const dir = u < 1 ? 1 : -1
+    ref.current.rotation.y = Math.atan2((to[0] - from[0]) * dir, (to[1] - from[1]) * dir)
+  })
+  return (
+    <group ref={ref} visible={false}>
+      <mesh position={[0, 0.17, 0]} castShadow>
+        <capsuleGeometry args={[0.06, 0.2, 4, 8]} />
+        <ZMat zone="circulacion" color={color} />
+      </mesh>
+      <mesh position={[0, 0.4, 0]} castShadow>
+        <sphereGeometry args={[0.055, 10, 10]} />
+        <ZMat zone="circulacion" color="#f1c9a5" />
+      </mesh>
+    </group>
+  )
+}
+
+/** Auto low-poly que circula por la calle (eje x) y reaparece al otro lado. */
+export function Car({ z, speed = 0.8, color = '#d8523f', offset = 0, dir = 1, range = 5.2 }: { z: number; speed?: number; color?: string; offset?: number; dir?: number; range?: number }) {
+  const ref = useRef<THREE.Group>(null!)
+  useFrame(({ clock }) => {
+    const span = range * 2
+    const x = ((clock.elapsedTime * speed * dir + offset) % span + span) % span - range
+    ref.current.position.set(x, 0.03, z)
+  })
+  return (
+    <group ref={ref} rotation={[0, dir > 0 ? Math.PI / 2 : -Math.PI / 2, 0]}>
+      <mesh position={[0, 0.13, 0]} castShadow>
+        <boxGeometry args={[0.34, 0.14, 0.7]} />
+        <ZMat zone="circulacion" color={color} roughness={0.4} metalness={0.2} />
+      </mesh>
+      <mesh position={[0, 0.25, -0.03]} castShadow>
+        <boxGeometry args={[0.3, 0.12, 0.36]} />
+        <ZMat zone="circulacion" color="#bfe0f5" roughness={0.2} metalness={0.3} />
+      </mesh>
+      {[-1, 1].flatMap((sx) =>
+        [-1, 1].map((sz) => (
+          <mesh key={`${sx}${sz}`} position={[sx * 0.18, 0.06, sz * 0.22]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.065, 0.065, 0.05, 10]} />
+            <ZMat zone="circulacion" color="#22262b" />
+          </mesh>
+        )),
+      )}
+    </group>
+  )
+}
+
+export function BikeRack({ position, rotY = 0, delay = 0.9 }: { position: V3; rotY?: number; delay?: number }) {
+  return (
+    <Pop position={position} rotation={[0, rotY, 0]} delay={delay}>
+      {[-0.3, -0.1, 0.1, 0.3].map((x, i) => (
+        <group key={x} position={[x, 0, 0]}>
+          <mesh position={[0, 0.1, 0]} rotation={[0, 0, 0]}>
+            <torusGeometry args={[0.1, 0.012, 6, 14]} />
+            <ZMat zone="circulacion" color={['#3aa6a0', '#f2b134', '#d8523f', '#6ea8ff'][i]} />
+          </mesh>
+          <mesh position={[0, 0.1, 0.25]}>
+            <torusGeometry args={[0.1, 0.012, 6, 14]} />
+            <ZMat zone="circulacion" color={['#3aa6a0', '#f2b134', '#d8523f', '#6ea8ff'][i]} />
+          </mesh>
+        </group>
+      ))}
+    </Pop>
+  )
+}
+
+export function Road({ z, w = 10.6, delay = 0.2 }: { z: number; w?: number; delay?: number }) {
+  return (
+    <Pop position={[0, 0.03, z]} delay={delay}>
+      <mesh receiveShadow>
+        <boxGeometry args={[w, 0.05, 1.0]} />
+        <ZMat zone="circulacion" color="#4b5058" />
+      </mesh>
+      {Array.from({ length: 8 }).map((_, i) => (
+        <mesh key={i} position={[-w / 2 + 0.8 + i * ((w - 1.6) / 7), 0.03, 0]}>
+          <boxGeometry args={[0.4, 0.01, 0.05]} />
+          <ZMat zone="circulacion" color="#f4e9c8" />
+        </mesh>
+      ))}
+    </Pop>
   )
 }

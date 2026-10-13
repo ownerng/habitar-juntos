@@ -1,5 +1,5 @@
 import { RoundedBox } from '@react-three/drei'
-import { Balcony, Bed, Facade, Pop, Tree, Wind, ZMat } from './kit'
+import { Balcony, Bed, BikeRack, Bench, Car, Facade, Fence, Flowers, House, Lamp, Person, Pop, Road, Tree, Wind, ZMat } from './kit'
 
 const H = 1.05
 const SW = 2.05 // ancho de cada vivienda
@@ -98,11 +98,43 @@ export function Colectiva() {
       {/* Ventilación cruzada */}
       <Wind y={H * 1.5} xs={[-SX, SX]} />
 
+      {/* Calle y acera frente al edificio */}
+      <Road z={4.5} />
+      <Car z={4.38} speed={0.6} color="#6ea8ff" offset={1} />
+      <Car z={4.72} speed={0.5} color="#f2b134" offset={4} dir={-1} />
+      <Pop position={[0, 0.02, 3.5]} delay={0.25}>
+        <mesh receiveShadow>
+          <boxGeometry args={[10, 0.04, 0.8]} />
+          <ZMat zone="circulacion" color="#e9dfcf" />
+        </mesh>
+      </Pop>
+
+      {/* Casas del barrio */}
+      <House position={[-5.2, 0, -0.2]} rotY={Math.PI / 2} w={2} d={1.5} stories={2} wall="#f0d6c0" roof="#b5473a" zone="privado" delay={0.4} chimney />
+      <House position={[5.4, 0, -2.3]} rotY={-Math.PI / 2} w={1.8} d={1.4} stories={2} wall="#e4e8c4" roof="#6a8a3c" zone="privado" delay={0.5} />
+      <House position={[-3.4, 0, -3.5]} w={1.7} d={1.4} wall="#d9e8f0" roof="#3f6e9a" zone="privado" delay={0.6} chimney />
+      <House position={[0.2, 0, -4.2]} w={1.7} d={1.4} wall="#f6dca8" roof="#a8442f" zone="privado" delay={0.7} />
+      <House position={[3.4, 0, -3.8]} w={1.7} d={1.4} wall="#e7d9f0" roof="#7a5a8c" zone="privado" delay={0.8} chimney />
+
+      {/* Jardín y acceso */}
+      <Fence position={[-2.6, 0, 3.0]} length={2.4} zone="privado" />
+      <Fence position={[2.6, 0, 3.0]} length={2.4} zone="privado" delay={0.9} />
+      <BikeRack position={[-1.1, 0, 2.7]} />
+      <Bench position={[1.2, 0, 2.8]} rotY={Math.PI} delay={1} />
+      <Flowers position={[-2.8, 0, 2.2]} n={9} delay={1.1} />
+      <Flowers position={[2.8, 0, 2.2]} n={9} delay={1.15} />
+      {[-3.6, -1.4, 1.4, 3.6].map((x, i) => (
+        <Lamp key={x} position={[x, 0, 3.8]} delay={0.9 + i * 0.05} />
+      ))}
+      <Person from={[-3.5, 3.45]} to={[3.5, 3.45]} color="#e0556b" speed={0.07} />
+      <Person from={[0, 2.4]} to={[0, 3.4]} color="#3aa6a0" speed={0.1} />
+
       {/* Entorno */}
-      <Tree position={[-4.6, 0, 2.4]} s={1.1} delay={0.6} />
-      <Tree position={[4.5, 0, 2.8]} s={1.05} delay={0.7} tone="#5f9a4a" />
-      <Tree position={[-4.2, 0, -3]} s={1.2} delay={0.8} tone="#6aa65a" />
-      <Tree position={[2.2, 0, 3.7]} s={0.85} delay={0.9} />
+      <Tree position={[-4.6, 0, 2.2]} s={1.1} delay={0.6} />
+      <Tree position={[4.5, 0, 2.5]} s={1.05} delay={0.7} tone="#5f9a4a" />
+      <Tree position={[-1.8, 0, -3.0]} s={1.1} delay={0.8} tone="#6aa65a" />
+      <Tree position={[1.9, 0, -3.1]} s={0.9} delay={0.9} />
+      <Tree position={[-5.6, 0, -2.6]} s={1.2} delay={1} />
     </group>
   )
 }

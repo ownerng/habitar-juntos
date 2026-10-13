@@ -1,4 +1,4 @@
-import { Bed, House, Pergola, Pop, Tree, ZMat } from './kit'
+import { Bed, Bench, Fence, Flowers, House, Lamp, Pergola, Person, PicnicTable, Pop, Tree, ZMat } from './kit'
 
 const homes: { pos: [number, number, number]; rot: number; wall: string; roof: string }[] = [
   { pos: [-3.3, 0, -0.4], rot: Math.PI / 2, wall: '#f4d6b0', roof: '#c4553a' },
@@ -74,13 +74,46 @@ export function Cohousing() {
       <Bed position={[-1.05, 0, 3.0]} delay={0.8} />
       <Bed position={[1.05, 0, 3.0]} delay={0.9} />
 
+      {/* Segunda hilera de viviendas */}
+      <House position={[-5.15, 0, 0.75]} rotY={Math.PI / 2} w={1.7} d={1.4} wall="#d9e8f0" roof="#3f6e9a" zone="privado" delay={0.5} chimney />
+      <House position={[5.15, 0, 0.75]} rotY={-Math.PI / 2} w={1.7} d={1.4} wall="#f6dca8" roof="#a8442f" zone="privado" delay={0.55} />
+      <House position={[-3.3, 0, 4.2]} w={1.7} d={1.4} wall="#f0d0d0" roof="#8a3f4a" zone="privado" delay={0.6} stories={2} chimney />
+      <House position={[3.3, 0, 4.2]} w={1.7} d={1.4} wall="#d6ead0" roof="#5c7f3c" zone="privado" delay={0.65} stories={2} />
+      {/* Cercas bajas y flores en cada jardín */}
+      <Fence position={[-2.05, 0, 0.75]} length={2.2} rotY={Math.PI / 2} delay={0.9} />
+      <Fence position={[2.05, 0, 0.75]} length={2.2} rotY={Math.PI / 2} delay={0.95} />
+      <Flowers position={[-2.6, 0, 3.0]} delay={1} />
+      <Flowers position={[2.6, 0, 3.0]} delay={1.05} />
+      <Flowers position={[-4.3, 0, 3.3]} n={9} delay={1.1} />
+      <Flowers position={[4.3, 0, 3.3]} n={9} delay={1.15} />
+      <Flowers position={[-1.6, 0, -4.1]} n={9} delay={1.1} spread={0.8} />
+      <Flowers position={[1.6, 0, -4.1]} n={9} delay={1.15} spread={0.8} />
+
+      {/* Mobiliario común */}
+      <PicnicTable position={[-1.2, 0, -0.3]} rotY={0.3} />
+      <PicnicTable position={[1.2, 0, -0.3]} rotY={-0.3} delay={0.9} />
+      <Bench position={[-0.9, 0, 0.35]} rotY={Math.PI} delay={1} />
+      <Bench position={[0.9, 0, 0.35]} rotY={Math.PI} delay={1.05} />
+      {[[-1.6, 0.4], [1.6, 0.4], [-1.6, 1.8], [1.6, 1.8], [-0.4, 4.0], [0.4, 4.0]].map(([x, z], i) => (
+        <Lamp key={i} position={[x, 0, z]} delay={0.9 + i * 0.05} />
+      ))}
+
+      {/* Vecinos */}
+      <Person from={[-2, 0.9]} to={[2, 0.9]} color="#e0556b" speed={0.1} />
+      <Person from={[0.1, -0.2]} to={[0.1, 3.9]} color="#3aa6a0" speed={0.08} />
+      <Person from={[-1.5, 3.6]} to={[1.5, 3.6]} color="#f2b134" speed={0.07} />
+      <Person from={[-4, 2.9]} to={[-2.4, 0.9]} color="#6ea8ff" speed={0.06} />
+
       {/* Vegetación */}
-      <Tree position={[-5.2, 0, -2]} s={1.15} delay={0.5} />
-      <Tree position={[5.2, 0, -2.4]} s={1.2} delay={0.6} tone="#5f9a4a" />
-      <Tree position={[-4.6, 0, 3.6]} s={0.95} delay={0.7} tone="#6aa65a" />
-      <Tree position={[4.7, 0, 3.8]} s={1} delay={0.8} />
-      <Tree position={[2.4, 0, -4.6]} s={1.1} delay={0.9} tone="#5f9a4a" />
-      <Tree position={[-2.2, 0, -4.7]} s={0.9} delay={1} />
+      <Tree position={[-5.6, 0, -2.6]} s={1.15} delay={0.5} />
+      <Tree position={[5.6, 0, -2.6]} s={1.2} delay={0.6} tone="#5f9a4a" />
+      <Tree position={[-5.2, 0, 3.4]} s={0.95} delay={0.7} tone="#6aa65a" />
+      <Tree position={[5.2, 0, 3.4]} s={1} delay={0.8} />
+      <Tree position={[2.6, 0, -5.0]} s={1.1} delay={0.9} tone="#5f9a4a" />
+      <Tree position={[-2.6, 0, -5.0]} s={0.9} delay={1} />
+      <Tree position={[0, 0, -5.3]} s={1.25} delay={1.05} tone="#6aa65a" />
+      <Tree position={[-1.9, 0, 5.3]} s={0.9} delay={1.1} />
+      <Tree position={[1.9, 0, 5.3]} s={1} delay={1.15} tone="#5f9a4a" />
     </group>
   )
 }
