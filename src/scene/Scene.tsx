@@ -161,7 +161,6 @@ export function Scene() {
 
       <Cloud y={9} z={-8} speed={0.35} scale={1.5} offset={4} />
       <Cloud y={11} z={-12} speed={0.22} scale={2} offset={22} />
-      <Cloud y={7.5} z={6} speed={0.28} scale={1.1} offset={30} />
 
       <Island />
       {/* key: al cambiar de tipología se vuelve a montar y se reproduce la animación de construcción */}
