@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { Hero } from './components/Hero'
 import { Hud } from './components/Hud'
 import { typologyList } from './data/typologies'
 import { useApp } from './store/useApp'
@@ -18,6 +19,7 @@ const webgl = hasWebGL()
 
 export default function App() {
   const typology = useApp((s) => s.typology)
+  const started = useApp((s) => s.started)
   return (
     <div className="fixed inset-0 overflow-hidden bg-[#0b1118]">
       {/* cielos: uno por tipología, con fundido entre ellos */}
@@ -44,7 +46,7 @@ export default function App() {
         </p>
       )}
 
-      <Hud />
+      {started ? <Hud /> : <Hero />}
     </div>
   )
 }

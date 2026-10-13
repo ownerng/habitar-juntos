@@ -37,7 +37,7 @@ export function Comparator() {
         </div>
       ))}
       <div>
-        <p className="mono mb-2 text-[11px] uppercase tracking-[0.18em] text-white/50">Tensiones del flujograma</p>
+        <p className="mono mb-2 text-[11px] uppercase tracking-[0.18em] text-white/50">Tensiones entre los referentes</p>
         <div className="grid gap-3">
           {tensions.map((t) => (
             <div key={t.title} className="border-l-2 border-[#ffb15c] pl-3">
@@ -47,7 +47,7 @@ export function Comparator() {
           ))}
         </div>
         <p className="mt-3 text-xs italic text-white/45">
-          Son interpretaciones del esquema comparativo, no reglas universales para toda vivienda colectiva.
+          Son interpretaciones de la comparación entre referentes, no reglas universales para toda vivienda colectiva.
         </p>
       </div>
     </div>

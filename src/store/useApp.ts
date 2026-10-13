@@ -11,6 +11,8 @@ interface AppState {
   inside: boolean
   focus: Zone | null
   panel: Panel
+  started: boolean
+  setStarted: (v: boolean) => void
   setTypology: (t: TypologyId) => void
   setStep: (n: number) => void
   setExplode: (v: number) => void
@@ -26,6 +28,8 @@ export const useApp = create<AppState>((set, get) => ({
   inside: false,
   focus: null,
   panel: null,
+  started: false,
+  setStarted: (started) => set({ started, panel: null }),
   setTypology: (typology) => set({ typology, step: -1, focus: null, inside: false }),
   // los pasos "de interior" abren las paredes; el resto las cierra
   setStep: (step) =>

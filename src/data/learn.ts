@@ -47,10 +47,10 @@ export const quiz: QuizQuestion[] = [
     q: '¿Qué operación comparten los tres referentes?',
     options: ['La modulación', 'La cubierta verde', 'La propiedad horizontal'],
     answer: 0,
-    explain: 'La modulación organiza o repite elementos siguiendo una regla. En el esquema se relaciona con la organización y con lo colectivo.',
+    explain: 'La modulación organiza o repite elementos siguiendo una regla. Se relaciona con la organización y con lo colectivo.',
   },
   {
-    q: '¿Qué tensión plantea el flujograma sobre las torres separadas de Alcaraván?',
+    q: '¿Qué tensión presentan las torres separadas de Alcaraván?',
     options: [
       'Generan vacíos que pueden limitar la comunidad',
       'Impiden la privacidad de cada vivienda',
@@ -60,7 +60,7 @@ export const quiz: QuizQuestion[] = [
     explain: 'Tener zonas comunes no basta: importan la distancia entre viviendas, la continuidad de los recorridos y la facilidad para encontrarse.',
   },
   {
-    q: '¿Qué secuencia propone el flujograma para Casa Moriyama?',
+    q: '¿Qué secuencia sigue la Casa Moriyama?',
     options: [
       'Núcleo → zonas comunes → unión',
       'Sustracción → recorridos → integración',
@@ -82,10 +82,6 @@ export const quiz: QuizQuestion[] = [
 ]
 
 export const glossary: { term: string; def: string }[] = [
-  { term: 'Vivienda que comparte', def: 'Manera de habitar en la que la vida privada se relaciona con espacios o experiencias comunes. Lo importante es qué comparte cada habitante, cómo lo comparte y qué relación establece con los demás.' },
-  { term: 'Lo privado', def: 'Espacios que pertenecen a cada vivienda (habitaciones, baño, cocina privada). Dan intimidad, tranquilidad y autonomía.' },
-  { term: 'Lo compartido', def: 'Espacios que pueden utilizar varias personas: patios, jardines, zonas comunes, circulaciones o lugares de encuentro.' },
-  { term: 'La conexión', def: 'Manera en que las personas pasan de lo privado a lo común: pasillos, patios, accesos, visuales o espacios intermedios.' },
   { term: 'Núcleo', def: 'Concentra las actividades o espacios comunes en una zona determinada (Alcaraván).' },
   { term: 'Ciudad dentro de ciudad', def: 'Idea de un conjunto residencial con su propia organización interna (Alcaraván).' },
   { term: 'Modulación', def: 'Organizar o repetir elementos o unidades siguiendo una regla. Es la operación que comparten los tres referentes.' },

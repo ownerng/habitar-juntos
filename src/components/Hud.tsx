@@ -15,11 +15,15 @@ function TopBar() {
   const setPanel = useApp((s) => s.setPanel)
   return (
     <header className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between p-5 sm:p-8">
-      <p className="mono pointer-events-auto text-[11px] uppercase leading-tight tracking-[0.28em] text-white/80">
+      <button
+        onClick={() => useApp.getState().setStarted(false)}
+        aria-label="Volver al inicio"
+        className="mono pointer-events-auto text-left text-[11px] uppercase leading-tight tracking-[0.28em] text-white/80 hover:text-white"
+      >
         Habitar
         <br />
         Juntos
-      </p>
+      </button>
       <nav className="pointer-events-auto flex gap-1">
         {panels.map((p) => (
           <button

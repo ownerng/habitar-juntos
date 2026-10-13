@@ -24,7 +24,7 @@ export interface Typology {
   name: string
   tagline: string
   summary: string
-  /** secuencia conceptual del flujograma */
+  /** secuencia conceptual entre los referentes */
   sequence: [string, string, string]
   /** pregunta que guía el referente */
   question: string
@@ -116,7 +116,7 @@ export const typologies: Record<TypologyId, Typology> = {
         view: [-4.4, 1.8, 5],
         concept: 'Cuando las torres se separan, aparecen vacíos',
         detail:
-          'El flujograma señala que las torres separadas generan vacíos que pueden limitar la comunidad. Importan la distancia entre las viviendas, la continuidad de los recorridos y la facilidad para encontrarse.',
+          'Las torres separadas generan vacíos que pueden limitar la comunidad. Importan la distancia entre las viviendas, la continuidad de los recorridos y la facilidad para encontrarse.',
         keyFact: 'Los vacíos suman en Moriyama, pero restan en Alcaraván.',
       },
       {
@@ -263,7 +263,7 @@ export const typologies: Record<TypologyId, Typology> = {
         view: [-2.8, 1.4, 5.6],
         concept: 'Vivienda concentrada en altura',
         detail:
-          'Ventum concentra la vivienda en altura y su relación con el entorno es limitada. Es una interpretación comparativa del esquema, no una afirmación de que todos los edificios en altura tengan este problema.',
+          'Ventum concentra la vivienda en altura y su relación con el entorno es limitada. Es una interpretación comparativa, no una afirmación de que todos los edificios en altura tengan este problema.',
         keyFact: 'Tensión: altura vs. porosidad.',
       },
       {
@@ -341,7 +341,7 @@ export const typologies: Record<TypologyId, Typology> = {
 
 export const typologyList = Object.values(typologies)
 
-/** Tensiones identificadas en el flujograma (interpretaciones, no reglas universales) */
+/** Tensiones identificadas entre los referentes (interpretaciones, no reglas universales) */
 export const tensions: { title: string; text: string }[] = [
   {
     title: 'Vacíos',
