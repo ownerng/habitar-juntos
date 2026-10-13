@@ -1,4 +1,4 @@
-# Habitar Juntos
+# La vivienda que comparte
 
 App didáctica en 3D sobre la vivienda que comparte, con tres referentes: Conjunto Alcaraván, Casa Moriyama y Edificio Ventum.
 
